@@ -6,24 +6,23 @@ milisegundos porque evita WMI por completo — toda la información se lee vía
 registro de Windows y llamadas nativas (P/Invoke) directas.
 
 ```
-+-------------+   +-------------+    gabic@TUF-F16
-:. . . . . . .:   :. . . . . . .:    -------------
-:. . . . . . .:   :. . . . . . .:    OS: Windows 11 Home 25H2 x86_64
-:. . . . . . .:   :. . . . . . .:    Host: ASUS TUF Gaming F16
-+-------------+   +-------------+    Kernel: 10.0.26200.9457
-                                      CPU: Intel Core 5 210H (12)
-+-------------+   +-------------+    GPU: NVIDIA RTX 3050 6GB
-:. . . . . . .:   :. . . . . . .:    Memoria: 14.4 / 31.6 GiB ████░░░░ 45%
-:. . . . . . .:   :. . . . . . .:    Disco: 318 / 476 GiB ████████░ 67%
-+-------------+   +-------------+
+###############   ###############    gabic@TUF-F16
+###############   ###############    -------------
+###############   ###############    OS: Windows 11 Home 25H2 x86_64
+###############   ###############    Host: ASUS TUF Gaming F16
+###############   ###############    Kernel: 10.0.26200.9457
+###############   ###############    CPU: Intel Core 5 210H (12)
+###############   ###############    GPU: NVIDIA RTX 3050 6GB
+###############   ###############    Memoria: 14.4 / 31.6 GiB ████░░░░ 45%
+###############   ###############    Disco: 318 / 476 GiB ████████░ 67%
 ```
 
 Formato clásico neofetch/fastfetch (logo a la izquierda, `user@host`,
-guiones, `Label: valor`). El logo es la cuadrícula de 4 paneles real de
-Windows 11, dibujada como mini "terminal windows" en ASCII puro (no bloques
-Unicode), y todo por defecto en verde neón estilo Matrix/hacker-terminal.
-También existe un estilo alternativo `boxed` con paneles agrupados
-(`wfetch --style boxed`).
+guiones, `Label: valor`). El logo es la cuadrícula real de 4 paneles de
+Windows 11, sólidos y en azul (el color de marca real), dibujados con
+caracteres ASCII (`#`) en vez de bloques Unicode. El resto del texto usa por
+defecto la paleta verde neón estilo Matrix/hacker-terminal. También existe un
+estilo alternativo `boxed` con paneles agrupados (`wfetch --style boxed`).
 
 ## Compilar
 
