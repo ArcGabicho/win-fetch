@@ -10,9 +10,9 @@ internal sealed class WFetchConfig
     // "classic" (lista plana estilo neofetch/fastfetch: user@host, guiones,
     // Label : Valor) o "boxed" (paneles agrupados Hardware / Session / Uptime).
     public string Style { get; set; } = "classic";
-    public string AccentColor { get; set; } = "matrix";
-    public string LabelColor { get; set; } = "matrixdim";
-    public string TitleColor { get; set; } = "matrix";
+    public string AccentColor { get; set; } = "cyan";
+    public string LabelColor { get; set; } = "cyandim";
+    public string TitleColor { get; set; } = "cyan";
     public bool ShowColorBlocks { get; set; } = true;
     public string Separator { get; set; } = ":";
     public List<string> Modules { get; set; } =

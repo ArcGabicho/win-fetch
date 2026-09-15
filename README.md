@@ -19,9 +19,9 @@ registro de Windows y llamadas nativas (P/Invoke) directas.
 
 Formato clásico neofetch/fastfetch (logo a la izquierda, `user@host`,
 guiones, `Label: valor`). El logo es la cuadrícula real de 4 paneles de
-Windows 11, sólidos y en azul (el color de marca real), dibujados con
+Windows 11, sólidos y en azul (el color de marca real, fijo), dibujados con
 caracteres ASCII (`#`) en vez de bloques Unicode. El resto del texto usa por
-defecto la paleta verde neón estilo Matrix/hacker-terminal. También existe un
+defecto cyan, también de la paleta Fluent de Windows 11. También existe un
 estilo alternativo `boxed` con paneles agrupados (`wfetch --style boxed`).
 
 ## Compilar
@@ -73,7 +73,7 @@ También puedes copiar `config\config.default.jsonc` como punto de partida
 |-------------------|---------------------------------------------------------------------|
 | `logo`            | `windows11`, `windows10`, `none`, o ruta a un `.txt` propio         |
 | `style`           | `classic` (lista plana estilo neofetch, configurable) o `boxed` (paneles agrupados) |
-| `accentColor`     | Color del logo y las barras de uso                                  |
+| `accentColor`     | Color de las barras de uso y del logo `windows10`/`classic` (el logo `windows11` es azul fijo) |
 | `labelColor`      | Color de las etiquetas                                              |
 | `titleColor`      | Color de los títulos / cabecera                                     |
 | `showColorBlocks` | Muestra la fila de colores al final                                 |
@@ -81,8 +81,8 @@ También puedes copiar `config\config.default.jsonc` como punto de partida
 | `modules`         | Orden y selección de módulos a mostrar (solo estilo `classic`)      |
 
 Colores válidos: `black`, `red`, `green`, `yellow`, `blue`, `magenta`,
-`cyan`, `white`, `gray`, `matrix` (verde neón, color por defecto),
-`matrixdim` (verde neón apagado, para etiquetas).
+`cyan` (color por defecto), `white`, `gray`, `cyandim` (cyan apagado, para
+etiquetas), `matrix` (verde neón), `matrixdim` (verde neón apagado).
 
 ## Por qué es rápido
 

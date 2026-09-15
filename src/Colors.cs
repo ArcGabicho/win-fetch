@@ -19,9 +19,12 @@ internal static class Ansi
         ["gray"] = "90",
         ["accent"] = "38;2;0;120;212",
 
-        // Verde neón estilo "hacker terminal" / Matrix.
+        // Verde neón estilo "hacker terminal" / Matrix (disponible como opción).
         ["matrix"] = "38;2;57;255;20",
         ["matrixdim"] = "38;2;20;120;20",
+
+        // Cyan apagado, para etiquetas junto al cyan de acento.
+        ["cyandim"] = "38;2;0;120;140",
     };
 
     internal static string Fg(string name) =>

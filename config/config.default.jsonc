@@ -1,6 +1,7 @@
 {
-  // Logo: "windows11" (monocromo), "windows10" (clásico 4 colores),
-  // "none" (sin logo), o la ruta a un .txt de arte ASCII personalizado.
+  // Logo: "windows11" (4 paneles sólidos en azul, color de marca fijo),
+  // "windows10" (clásico 4 colores), "none" (sin logo), o la ruta a un .txt
+  // de arte ASCII personalizado.
   "logo": "windows11",
 
   // "classic": lista plana estilo neofetch/fastfetch (user@host, guiones,
@@ -8,10 +9,10 @@
   "style": "classic",
 
   // Colores válidos: black, red, green, yellow, blue, magenta, cyan, white,
-  // gray, matrix (verde neón), matrixdim (verde neón apagado)
-  "accentColor": "matrix",
-  "labelColor": "matrixdim",
-  "titleColor": "matrix",
+  // gray, cyandim (cyan apagado), matrix (verde neón), matrixdim (verde neón apagado)
+  "accentColor": "cyan",
+  "labelColor": "cyandim",
+  "titleColor": "cyan",
 
   "showColorBlocks": true,
   "separator": ":",
