@@ -4,35 +4,21 @@ internal sealed record LogoSegment(string Text, string Color);
 
 internal static class Logo
 {
-    // Arte ASCII clásico de Windows (estilo neofetch), hecho con caracteres
-    // de texto en vez de bloques sólidos.
-    private static readonly string[] AsciiLines =
-    [
-        "        ,.=:!!t3Z3z.,",
-        "       :tt:::tt333EE3",
-        "       Et:::ztt33EEEL @Ee.,      ..,",
-        "      ;tt:::tt333EE7 ;EEEEEEttttt33#",
-        "     :Et:::zt333EEQ. $EEEEEttttt33QL",
-        "     it::::tt333EEF @EEEEEEttttt33F",
-        "    ;3=*^```\"*4EEV :EEEEEEttttt33@.",
-        "    ,.=::::!t=., ` @EEEEEEtttz33QF",
-        "   ;::::::::zt33)   \"4EEEtttji3P*",
-        "  :t::::::::tt33.:Z3z..  ``` ,..g.",
-        "  i::::::::zt33F AEEEtttt::::ztF",
-        " ;:::::::::t33V ;EEEttttt::::t3",
-        " E::::::::zt33L @EEEttttt::::z3F",
-        "{3=*^```\"*4E3) ;EEEttttt:::::tZ`",
-        "             ` :EEEEtttt::::z7",
-        "                 \"VEzjt:;;z>*`",
-    ];
+    // El logo real de Windows 11 es una cuadrícula 2x2 de paneles (a diferencia
+    // del "flag" ondulado de versiones viejas de Windows). Lo dibujamos con
+    // caracteres ASCII (#) en vez de bloques Unicode, y con la esquina externa
+    // de cada panel ligeramente redondeada para imitar el logo real.
+    private const int TileWidth = 15;
+    private const int TileHeight = 7;
+    private const string Gap = "   ";
 
     internal static List<List<LogoSegment>> Build(string name, string accentColor)
     {
         return name.ToLowerInvariant() switch
         {
-            "windows10" or "classic" => BuildQuadrantAscii("red", "green", "blue", "yellow"),
+            "windows10" or "classic" => BuildQuadrants("red", "green", "blue", "yellow"),
             "none" => [],
-            _ => BuildMonoAscii(accentColor),
+            _ => BuildQuadrants(accentColor, accentColor, accentColor, accentColor),
         };
     }
 
@@ -53,30 +39,40 @@ internal static class Logo
     internal static int VisualWidth(List<List<LogoSegment>> lines) =>
         lines.Count == 0 ? 0 : lines.Max(segments => segments.Sum(s => s.Text.Length));
 
-    private static List<List<LogoSegment>> BuildMonoAscii(string color)
+    private static List<List<LogoSegment>> BuildQuadrants(string tl, string tr, string bl, string br)
     {
-        var result = new List<List<LogoSegment>>(AsciiLines.Length);
-        foreach (var line in AsciiLines)
-            result.Add([new LogoSegment(line, color)]);
-        return result;
-    }
+        var result = new List<List<LogoSegment>>();
 
-    private static List<List<LogoSegment>> BuildQuadrantAscii(string tl, string tr, string bl, string br)
-    {
-        var result = new List<List<LogoSegment>>(AsciiLines.Length);
-        int half = AsciiLines.Length / 2;
-
-        for (int i = 0; i < AsciiLines.Length; i++)
+        for (int row = 0; row < TileHeight; row++)
         {
-            string line = AsciiLines[i];
-            int mid = Math.Max(1, line.Length / 2);
-            string left = line[..mid];
-            string right = line[mid..];
-            string colorLeft = i < half ? tl : bl;
-            string colorRight = i < half ? tr : br;
-            result.Add([new LogoSegment(left, colorLeft), new LogoSegment(right, colorRight)]);
+            result.Add([
+                new LogoSegment(Tile(row, isTop: true, isLeft: true), tl),
+                new LogoSegment(Gap, "black"),
+                new LogoSegment(Tile(row, isTop: true, isLeft: false), tr),
+            ]);
+        }
+
+        result.Add([new LogoSegment(new string(' ', TileWidth * 2 + Gap.Length), "black")]);
+
+        for (int row = 0; row < TileHeight; row++)
+        {
+            result.Add([
+                new LogoSegment(Tile(row, isTop: false, isLeft: true), bl),
+                new LogoSegment(Gap, "black"),
+                new LogoSegment(Tile(row, isTop: false, isLeft: false), br),
+            ]);
         }
 
         return result;
+    }
+
+    private static string Tile(int row, bool isTop, bool isLeft)
+    {
+        bool isOuterCornerRow = isTop ? row == 0 : row == TileHeight - 1;
+        if (!isOuterCornerRow)
+            return new string('#', TileWidth);
+
+        string body = new string('#', TileWidth - 1);
+        return isLeft ? "." + body : body + ".";
     }
 }
