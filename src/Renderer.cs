@@ -205,7 +205,7 @@ internal static class Renderer
     }
 
     private static string Label(string name, string value, WFetchConfig config) =>
-        $"{Ansi.Colorize(name, config.TitleColor)} {Ansi.Colorize(config.Separator, config.LabelColor)} {value}";
+        $"{Ansi.Colorize(name, config.TitleColor)}{Ansi.Colorize(config.Separator, config.LabelColor)} {value}";
 
     private static string Bar(int percent, string accent, int width = 12)
     {

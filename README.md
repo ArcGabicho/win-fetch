@@ -6,25 +6,24 @@ milisegundos porque evita WMI por completo — toda la información se lee vía
 registro de Windows y llamadas nativas (P/Invoke) directas.
 
 ```
-┌──(gabic@TUF-F16)-[wfetch]
-└─$ system_info --scan
-
-+-------------+   +-------------+    ┌─ [+] HARDWARE
-:. . . . . . .:   :. . . . . . .:    ├─ CPU        Intel Core 5 210H (12)
-:. . . . . . .:   :. . . . . . .:    ├─ GPU        NVIDIA RTX 3050 6GB
-:. . . . . . .:   :. . . . . . .:    ├─ RAM        14.4 / 31.6 GiB ████░░░░ 45%
-:. . . . . . .:   :. . . . . . .:    └─ DRIVE C:   318 / 476 GiB ████████░ 67%
-+-------------+   +-------------+
-                                     ┌─ [+] UPTIME / DATE
-+-------------+   +-------------+   ├─ UPTIME     4 h, 57 min
-:. . . . . . .:   :. . . . . . .:   └─ DATE       2026-09-14 22:11
-:. . . . . . .:   :. . . . . . .:
++-------------+   +-------------+    gabic@TUF-F16
+:. . . . . . .:   :. . . . . . .:    -------------
+:. . . . . . .:   :. . . . . . .:    OS: Windows 11 Home 25H2 x86_64
+:. . . . . . .:   :. . . . . . .:    Host: ASUS TUF Gaming F16
++-------------+   +-------------+    Kernel: 10.0.26200.9457
+                                      CPU: Intel Core 5 210H (12)
++-------------+   +-------------+    GPU: NVIDIA RTX 3050 6GB
+:. . . . . . .:   :. . . . . . .:    Memoria: 14.4 / 31.6 GiB ████░░░░ 45%
+:. . . . . . .:   :. . . . . . .:    Disco: 318 / 476 GiB ████████░ 67%
 +-------------+   +-------------+
 ```
 
-El logo es la cuadrícula de 4 paneles de Windows 11, dibujada como mini
-"terminal windows" en ASCII puro (no bloques Unicode), y todo por defecto en
-verde neón estilo Matrix/hacker-terminal.
+Formato clásico neofetch/fastfetch (logo a la izquierda, `user@host`,
+guiones, `Label: valor`). El logo es la cuadrícula de 4 paneles real de
+Windows 11, dibujada como mini "terminal windows" en ASCII puro (no bloques
+Unicode), y todo por defecto en verde neón estilo Matrix/hacker-terminal.
+También existe un estilo alternativo `boxed` con paneles agrupados
+(`wfetch --style boxed`).
 
 ## Compilar
 
@@ -55,7 +54,7 @@ wfetch                  # usa la config guardada, o los valores por defecto
 wfetch --no-logo        # sin logo
 wfetch --logo windows10 # logo clásico de 4 colores
 wfetch --logo ruta.txt  # arte ASCII personalizado
-wfetch --style classic  # lista plana en vez de paneles agrupados
+wfetch --style boxed    # paneles agrupados en vez de la lista clásica
 wfetch --init-config    # crea una config editable de ejemplo
 wfetch --help
 ```
@@ -74,7 +73,7 @@ También puedes copiar `config\config.default.jsonc` como punto de partida
 | Campo             | Descripción                                                        |
 |-------------------|---------------------------------------------------------------------|
 | `logo`            | `windows11`, `windows10`, `none`, o ruta a un `.txt` propio         |
-| `style`           | `boxed` (paneles agrupados) o `classic` (lista plana configurable)  |
+| `style`           | `classic` (lista plana estilo neofetch, configurable) o `boxed` (paneles agrupados) |
 | `accentColor`     | Color del logo y las barras de uso                                  |
 | `labelColor`      | Color de las etiquetas                                              |
 | `titleColor`      | Color de los títulos / cabecera                                     |

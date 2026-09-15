@@ -3,8 +3,9 @@
   // "none" (sin logo), o la ruta a un .txt de arte ASCII personalizado.
   "logo": "windows11",
 
-  // "boxed": paneles agrupados (Hardware / Session / Uptime). "classic": lista plana.
-  "style": "boxed",
+  // "classic": lista plana estilo neofetch/fastfetch (user@host, guiones,
+  // Label: valor). "boxed": paneles agrupados (Hardware / Session / Uptime).
+  "style": "classic",
 
   // Colores válidos: black, red, green, yellow, blue, magenta, cyan, white,
   // gray, matrix (verde neón), matrixdim (verde neón apagado)
@@ -13,7 +14,7 @@
   "titleColor": "matrix",
 
   "showColorBlocks": true,
-  "separator": ">",
+  "separator": ":",
 
   // Orden y selección de módulos a mostrar (solo aplica con style: "classic").
   "modules": [
