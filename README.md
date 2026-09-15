@@ -1,9 +1,20 @@
+<div align="center">
+
 # wfetch
 
-Un fetch de sistema para Windows 11, ligero y muy rápido: se compila a un único
-`.exe` nativo (Native AOT, sin runtime de .NET que instalar) y arranca en
-milisegundos porque evita WMI por completo — toda la información se lee vía
-registro de Windows y llamadas nativas (P/Invoke) directas.
+**A lightweight, blazing-fast system info fetch tool for Windows 11.**
+
+Compiles to a single native `.exe` (Native AOT) with no WMI calls, no runtime
+to install, and a startup time measured in milliseconds.
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)](https://dotnet.microsoft.com/)
+[![Platform: Windows 11](https://img.shields.io/badge/platform-Windows%2011-0078D4)](https://www.microsoft.com/windows/windows-11)
+[![Native AOT](https://img.shields.io/badge/build-Native%20AOT-39FF14)](#-why-its-fast)
+
+</div>
+
+---
 
 ```
 ###############   ###############    gabic@TUF-F16
@@ -17,80 +28,174 @@ registro de Windows y llamadas nativas (P/Invoke) directas.
 ###############   ###############    Disco: 318 / 476 GiB ████████░ 67%
 ```
 
-Formato clásico neofetch/fastfetch (logo a la izquierda, `user@host`,
-guiones, `Label: valor`). El logo es la cuadrícula real de 4 paneles de
-Windows 11, sólidos y en azul (el color de marca real, fijo), dibujados con
-caracteres ASCII (`#`) en vez de bloques Unicode. El resto del texto usa por
-defecto cyan, también de la paleta Fluent de Windows 11. También existe un
-estilo alternativo `boxed` con paneles agrupados (`wfetch --style boxed`).
+The logo is Windows 11's real 2x2 panel grid, drawn solid in its brand blue
+using plain ASCII (`#`) instead of Unicode blocks. Everything else defaults
+to cyan, also part of the Windows 11 Fluent palette.
 
-## Compilar
+## Table of contents
 
-Requiere el SDK de .NET 10 y, para el build Native AOT, las herramientas de
-compilación de C++ de Visual Studio ("Desktop development with C++") junto
-con el componente **Windows 10/11 SDK**.
+- [Features](#features)
+- [Why it's fast](#why-its-fast)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+  - [Options reference](#options-reference)
+  - [Available colors](#available-colors)
+  - [Custom ASCII logo](#custom-ascii-logo)
+- [Project layout](#project-layout)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- **Native AOT binary** — one `.exe`, ~2.8 MB, no .NET runtime to install,
+  starts in tens of milliseconds.
+- **No WMI** — every value is read from the Windows registry or via direct
+  Win32 calls (P/Invoke), which is what makes it fast in the first place.
+- **Real Windows 11 branding** — the ASCII logo is the actual 4-panel grid
+  from the Windows 11 icon, not a generic "Windows flag".
+- **Two layouts** — a classic neofetch/fastfetch-style flat list, or a
+  boxed layout with grouped panels (Hardware / Session / Uptime).
+- **Fully configurable** — colors, logo, layout, separator and module order
+  via a JSON config file or CLI flags.
+- **Bring your own ASCII art** — point `--logo` at any `.txt` file.
+
+## Why it's fast
+
+| Typical fetch tool | wfetch |
+|---|---|
+| Queries WMI (`Win32_Processor`, `Win32_VideoController`, ...), each call can take 50-300ms | Reads the registry directly and calls Win32 APIs (`GlobalMemoryStatusEx`, `GetDiskFreeSpaceEx`, `GetTickCount64`, `RtlGetVersion`, ...) |
+| Runs on a JIT-compiled runtime | Compiles ahead-of-time to native machine code (Native AOT) — no JIT, no runtime startup |
+| Prints line by line | Builds the entire frame in memory and writes it to the console once |
+
+The result is a cold start in the tens of milliseconds, comparable to or
+faster than `fastfetch`.
+
+## Installation
+
+### Requirements
+
+- [.NET 10 SDK](https://dotnet.microsoft.com/download)
+- For the Native AOT build only: Visual Studio with the **"Desktop
+  development with C++"** workload, and the **Windows 10/11 SDK** component.
+
+### Build
 
 ```powershell
-# Build normal (rápido, para desarrollo)
+git clone https://github.com/ArcGabicho/win-fetch.git
+cd win-fetch
+
+# Quick build for development (JIT, no C++ tools required)
 dotnet build -c Release
 
-# Publish Native AOT (binario final, un solo .exe nativo).
-# dotnet publish necesita el linker de MSVC en el PATH, así que usa el script
-# que ya localiza vcvars64.bat y lo prepara todo:
+# Native AOT build (final, single native .exe). This needs the MSVC linker,
+# so use the helper script — it locates vcvars64.bat and sets everything up:
 .\publish.ps1
 ```
 
-El binario final queda en:
-`bin\Release\net10.0-windows\win-x64\publish\wfetch.exe`
-
-Cópialo a una carpeta que esté en tu `PATH` (por ejemplo
-`%USERPROFILE%\bin`) para poder ejecutar `wfetch` desde cualquier lugar.
-
-## Uso
+The final binary lands at:
 
 ```
-wfetch                  # usa la config guardada, o los valores por defecto
-wfetch --no-logo        # sin logo
-wfetch --logo windows10 # logo clásico de 4 colores
-wfetch --logo ruta.txt  # arte ASCII personalizado
-wfetch --style boxed    # paneles agrupados en vez de la lista clásica
-wfetch --init-config    # crea una config editable de ejemplo
+bin\Release\net10.0-windows\win-x64\publish\wfetch.exe
+```
+
+Copy it to a folder on your `PATH` (e.g. `%USERPROFILE%\bin`) to run
+`wfetch` from anywhere.
+
+## Usage
+
+```
+wfetch                    # use saved config, or the built-in defaults
+wfetch --no-logo          # skip the logo
+wfetch --logo windows10   # classic 4-color logo
+wfetch --logo path.txt    # your own ASCII art
+wfetch --style boxed      # grouped panels instead of the classic flat list
+wfetch --init-config      # generate an editable config file
 wfetch --help
 ```
 
-## Configuración
+| Flag | Alias | Description |
+|---|---|---|
+| `--config <path>` | `-c` | Use a specific config file |
+| `--logo <name>` | `-l` | `windows11` \| `windows10` \| `none` \| path to a custom `.txt` |
+| `--style <name>` | `-s` | `classic` \| `boxed` |
+| `--no-logo` | | Don't render a logo |
+| `--init-config` | | Generate a starter config at `%USERPROFILE%\.config\wfetch\config.json` |
+| `--help` | `-h` | Show usage |
 
-`wfetch --init-config` crea el archivo en:
+## Configuration
+
+Run `wfetch --init-config` to generate an editable config at:
 
 ```
 %USERPROFILE%\.config\wfetch\config.json
 ```
 
-También puedes copiar `config\config.default.jsonc` como punto de partida
-(admite comentarios `//`). Opciones disponibles:
+Or copy [`config/config.default.jsonc`](config/config.default.jsonc) as a
+starting point — it supports `//` comments.
 
-| Campo             | Descripción                                                        |
-|-------------------|---------------------------------------------------------------------|
-| `logo`            | `windows11`, `windows10`, `none`, o ruta a un `.txt` propio         |
-| `style`           | `classic` (lista plana estilo neofetch, configurable) o `boxed` (paneles agrupados) |
-| `accentColor`     | Color de las barras de uso y del logo `windows10`/`classic` (el logo `windows11` es azul fijo) |
-| `labelColor`      | Color de las etiquetas                                              |
-| `titleColor`      | Color de los títulos / cabecera                                     |
-| `showColorBlocks` | Muestra la fila de colores al final                                 |
-| `separator`       | Separador entre etiqueta y valor (solo estilo `classic`)            |
-| `modules`         | Orden y selección de módulos a mostrar (solo estilo `classic`)      |
+### Options reference
 
-Colores válidos: `black`, `red`, `green`, `yellow`, `blue`, `magenta`,
-`cyan` (color por defecto), `white`, `gray`, `cyandim` (cyan apagado, para
-etiquetas), `matrix` (verde neón), `matrixdim` (verde neón apagado).
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `logo` | string | `"windows11"` | `windows11`, `windows10`, `none`, or a path to a custom `.txt` |
+| `style` | string | `"classic"` | `classic` (flat, configurable list) or `boxed` (grouped panels) |
+| `accentColor` | string | `"cyan"` | Usage bars, and the logo color for `windows10`/custom logos (`windows11` is always brand blue) |
+| `labelColor` | string | `"cyandim"` | Field labels |
+| `titleColor` | string | `"cyan"` | Header / section titles |
+| `showColorBlocks` | bool | `true` | Show the color swatch row at the bottom |
+| `separator` | string | `":"` | Label/value separator (`classic` style only) |
+| `modules` | string[] | see below | Order and selection of fields to show (`classic` style only) |
 
-## Por qué es rápido
+Default `modules`: `titulo`, `separador`, `os`, `host`, `kernel`, `uptime`,
+`shell`, `terminal`, `resolucion`, `cpu`, `gpu`, `memoria`, `disco`,
+`bateria`, `locale`, `espacio`, `colores`.
 
-- **Native AOT**: el `.exe` es código máquina nativo, no hay JIT ni arranque
-  de runtime.
-- **Sin WMI**: WMI (`Win32_Processor`, `Win32_VideoController`, etc.) puede
-  tardar cientos de milisegundos por consulta. Aquí todo se lee directo del
-  registro de Windows o vía llamadas Win32 (`GlobalMemoryStatusEx`,
-  `GetDiskFreeSpaceEx`, `GetTickCount64`, `RtlGetVersion`...).
-- **Una sola escritura a consola**: toda la salida se arma en memoria y se
-  imprime de una vez, evitando el overhead de múltiples `Console.WriteLine`.
+### Available colors
+
+`black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`,
+`gray`, `cyandim` (muted cyan), `matrix` (neon green), `matrixdim` (muted
+neon green).
+
+### Custom ASCII logo
+
+Point `--logo` (or the `logo` config field) at any `.txt` file — it's
+printed as-is, colored with `accentColor`:
+
+```powershell
+wfetch --logo my-logo.txt
+```
+
+## Project layout
+
+```
+wfetch.csproj           # Native AOT project (net10.0-windows)
+publish.ps1             # publish helper: locates vcvars64.bat, runs dotnet publish
+config/
+  config.default.jsonc  # example / starter configuration
+src/
+  Program.cs            # CLI argument parsing, entry point
+  Config.cs             # config model + JSON (de)serialization
+  SystemInfo.cs         # all data collection: registry reads + P/Invoke
+  NativeMethods.cs      # Win32 P/Invoke declarations
+  Logo.cs               # ASCII logo generation
+  Colors.cs             # ANSI/truecolor palette
+  Renderer.cs           # composes the logo + info panel into the final frame
+```
+
+## Contributing
+
+Issues and pull requests are welcome. A few ideas if you're looking for
+where to start:
+
+- Additional ASCII logo variants
+- More info modules (network, motherboard, packages...)
+- ARM64 publish profile
+
+Please keep new data-gathering code free of WMI — the whole point of this
+project is to stay fast by reading the registry / calling Win32 APIs
+directly.
+
+## License
+
+[MIT](LICENSE) © ArcGabicho
