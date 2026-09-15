@@ -1,0 +1,37 @@
+{
+  // Logo: "windows11" (monocromo), "windows10" (clásico 4 colores),
+  // "none" (sin logo), o la ruta a un .txt de arte ASCII personalizado.
+  "logo": "windows11",
+
+  // "boxed": paneles agrupados (Hardware / Session / Uptime). "classic": lista plana.
+  "style": "boxed",
+
+  // Colores válidos: black, red, green, yellow, blue, magenta, cyan, white, gray
+  "accentColor": "cyan",
+  "labelColor": "white",
+  "titleColor": "cyan",
+
+  "showColorBlocks": true,
+  "separator": "-",
+
+  // Orden y selección de módulos a mostrar (solo aplica con style: "classic").
+  "modules": [
+    "titulo",
+    "separador",
+    "os",
+    "host",
+    "kernel",
+    "uptime",
+    "shell",
+    "terminal",
+    "resolucion",
+    "cpu",
+    "gpu",
+    "memoria",
+    "disco",
+    "bateria",
+    "locale",
+    "espacio",
+    "colores"
+  ]
+}
