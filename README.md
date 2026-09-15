@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/logo.svg" width="140" height="140" alt="wfetch logo" />
+
 # wfetch
 
 **A lightweight, blazing-fast system info fetch tool for Windows 11.**

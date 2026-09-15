@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2AA9F2"/>
+      <stop offset="100%" stop-color="#0078D4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- terminal card -->
+  <rect x="4" y="4" width="192" height="192" rx="34" fill="#0A0E14" stroke="#00BCE3" stroke-width="5"/>
+
+  <!-- terminal title bar dots -->
+  <circle cx="28" cy="24" r="4.5" fill="#00BCE3"/>
+  <circle cx="44" cy="24" r="4.5" fill="#00BCE3" opacity="0.6"/>
+  <circle cx="60" cy="24" r="4.5" fill="#00BCE3" opacity="0.3"/>
+
+  <!-- Windows 11 4-panel grid (equal squares, real logo proportions) -->
+  <rect x="34" y="52" width="60" height="60" rx="8" fill="url(#tile)"/>
+  <rect x="106" y="52" width="60" height="60" rx="8" fill="url(#tile)"/>
+  <rect x="34" y="124" width="60" height="60" rx="8" fill="url(#tile)"/>
+  <rect x="106" y="124" width="60" height="60" rx="8" fill="url(#tile)"/>
+</svg>
