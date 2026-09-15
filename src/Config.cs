@@ -9,11 +9,11 @@ internal sealed class WFetchConfig
 
     // "boxed" (paneles agrupados: Hardware / Session / Uptime) o "classic" (lista plana).
     public string Style { get; set; } = "boxed";
-    public string AccentColor { get; set; } = "cyan";
-    public string LabelColor { get; set; } = "white";
-    public string TitleColor { get; set; } = "cyan";
+    public string AccentColor { get; set; } = "matrix";
+    public string LabelColor { get; set; } = "matrixdim";
+    public string TitleColor { get; set; } = "matrix";
     public bool ShowColorBlocks { get; set; } = true;
-    public string Separator { get; set; } = "-";
+    public string Separator { get; set; } = ">";
     public List<string> Modules { get; set; } =
     [
         "titulo",

@@ -18,6 +18,10 @@ internal static class Ansi
         ["white"] = "37",
         ["gray"] = "90",
         ["accent"] = "38;2;0;120;212",
+
+        // Verde neón estilo "hacker terminal" / Matrix.
+        ["matrix"] = "38;2;57;255;20",
+        ["matrixdim"] = "38;2;20;120;20",
     };
 
     internal static string Fg(string name) =>

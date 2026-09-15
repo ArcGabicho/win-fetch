@@ -4,13 +4,14 @@ internal sealed record LogoSegment(string Text, string Color);
 
 internal static class Logo
 {
-    // El logo real de Windows 11 es una cuadrícula 2x2 de paneles (a diferencia
-    // del "flag" ondulado de versiones viejas de Windows). Lo dibujamos con
-    // caracteres ASCII (#) en vez de bloques Unicode, y con la esquina externa
-    // de cada panel ligeramente redondeada para imitar el logo real.
+    // El logo real de Windows 11 es una cuadrícula 2x2 de paneles. En vez de
+    // rellenarlos sólidos, cada panel se dibuja como un mini "terminal window"
+    // (marco + interior punteado tipo HUD) para un acabado más hacker/CRT.
     private const int TileWidth = 15;
     private const int TileHeight = 7;
     private const string Gap = "   ";
+
+    private static readonly string[] TileRows = BuildTileRows();
 
     internal static List<List<LogoSegment>> Build(string name, string accentColor)
     {
@@ -39,6 +40,19 @@ internal static class Logo
     internal static int VisualWidth(List<List<LogoSegment>> lines) =>
         lines.Count == 0 ? 0 : lines.Max(segments => segments.Sum(s => s.Text.Length));
 
+    private static string[] BuildTileRows()
+    {
+        string border = "+" + new string('-', TileWidth - 2) + "+";
+        string interior = string.Concat(Enumerable.Range(0, TileWidth - 2).Select(i => i % 2 == 0 ? "." : " "));
+        string body = ":" + interior + ":";
+
+        var rows = new string[TileHeight];
+        rows[0] = border;
+        rows[TileHeight - 1] = border;
+        for (int i = 1; i < TileHeight - 1; i++) rows[i] = body;
+        return rows;
+    }
+
     private static List<List<LogoSegment>> BuildQuadrants(string tl, string tr, string bl, string br)
     {
         var result = new List<List<LogoSegment>>();
@@ -46,9 +60,9 @@ internal static class Logo
         for (int row = 0; row < TileHeight; row++)
         {
             result.Add([
-                new LogoSegment(Tile(row, isTop: true, isLeft: true), tl),
+                new LogoSegment(TileRows[row], tl),
                 new LogoSegment(Gap, "black"),
-                new LogoSegment(Tile(row, isTop: true, isLeft: false), tr),
+                new LogoSegment(TileRows[row], tr),
             ]);
         }
 
@@ -57,22 +71,12 @@ internal static class Logo
         for (int row = 0; row < TileHeight; row++)
         {
             result.Add([
-                new LogoSegment(Tile(row, isTop: false, isLeft: true), bl),
+                new LogoSegment(TileRows[row], bl),
                 new LogoSegment(Gap, "black"),
-                new LogoSegment(Tile(row, isTop: false, isLeft: false), br),
+                new LogoSegment(TileRows[row], br),
             ]);
         }
 
         return result;
-    }
-
-    private static string Tile(int row, bool isTop, bool isLeft)
-    {
-        bool isOuterCornerRow = isTop ? row == 0 : row == TileHeight - 1;
-        if (!isOuterCornerRow)
-            return new string('#', TileWidth);
-
-        string body = new string('#', TileWidth - 1);
-        return isLeft ? "." + body : body + ".";
     }
 }

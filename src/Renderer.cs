@@ -21,7 +21,12 @@ internal static class Renderer
         sb.Append('\n');
         if (config.Style.Equals("boxed", StringComparison.OrdinalIgnoreCase))
         {
-            sb.Append(Ansi.Colorize(Ansi.Bold + $"Hey, {SystemInfo.GetUserName()}", config.TitleColor)).Append('\n').Append('\n');
+            string userHost = SystemInfo.GetUserHostLine();
+            sb.Append(Ansi.Colorize(Ansi.Bold + $"┌──({userHost})-[wfetch]", config.TitleColor)).Append('\n');
+            sb.Append(Ansi.Colorize(Ansi.Bold + "└─$", config.TitleColor))
+              .Append(' ')
+              .Append(Ansi.Colorize("system_info --scan", config.LabelColor))
+              .Append('\n').Append('\n');
         }
         for (int i = 0; i < rowCount; i++)
         {
@@ -59,11 +64,11 @@ internal static class Renderer
 
         var lines = new List<string>();
 
-        AddGroup(lines, config, "Hardware", BuildHardwareRows(config), labelWidth);
+        AddGroup(lines, config, "HARDWARE", BuildHardwareRows(config), labelWidth);
         lines.Add("");
-        AddGroup(lines, config, "Session", BuildSessionRows(config), labelWidth);
+        AddGroup(lines, config, "SESSION", BuildSessionRows(config), labelWidth);
         lines.Add("");
-        AddGroup(lines, config, "Uptime / Date", BuildUptimeRows(config), labelWidth);
+        AddGroup(lines, config, "UPTIME / DATE", BuildUptimeRows(config), labelWidth);
 
         if (config.ShowColorBlocks)
         {
@@ -76,7 +81,7 @@ internal static class Renderer
 
     private static void AddGroup(List<string> lines, WFetchConfig config, string title, List<(string Label, string Value)> rows, int labelWidth)
     {
-        lines.Add(Ansi.Colorize("┌─ ", config.AccentColor) + Ansi.Colorize(title, config.AccentColor));
+        lines.Add(Ansi.Colorize("┌─ [+] ", config.AccentColor) + Ansi.Colorize(Ansi.Bold + title, config.AccentColor));
         for (int i = 0; i < rows.Count; i++)
         {
             string connector = i == rows.Count - 1 ? "└─ " : "├─ ";

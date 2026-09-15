@@ -6,17 +6,25 @@ milisegundos porque evita WMI por completo — toda la información se lee vía
 registro de Windows y llamadas nativas (P/Invoke) directas.
 
 ```
-███████████████   ███████████████    gabic@TUF-F16
-███████████████   ███████████████    -------------
-███████████████   ███████████████    OS - Windows 11 Home 25H2 x86_64
-███████████████   ███████████████    Host - ASUS TUF Gaming F16
-███████████████   ███████████████    Kernel - 10.0.26200.9457
-███████████████   ███████████████    CPU - Intel Core 5 210H (12)
-███████████████   ███████████████    GPU - NVIDIA RTX 3050 6GB
-                                      Memoria - 14.4 / 31.6 GiB ████░░░░ 45%
-███████████████   ███████████████    Disco - 318 / 476 GiB ████████░ 67%
-███████████████   ███████████████
+┌──(gabic@TUF-F16)-[wfetch]
+└─$ system_info --scan
+
++-------------+   +-------------+    ┌─ [+] HARDWARE
+:. . . . . . .:   :. . . . . . .:    ├─ CPU        Intel Core 5 210H (12)
+:. . . . . . .:   :. . . . . . .:    ├─ GPU        NVIDIA RTX 3050 6GB
+:. . . . . . .:   :. . . . . . .:    ├─ RAM        14.4 / 31.6 GiB ████░░░░ 45%
+:. . . . . . .:   :. . . . . . .:    └─ DRIVE C:   318 / 476 GiB ████████░ 67%
++-------------+   +-------------+
+                                     ┌─ [+] UPTIME / DATE
++-------------+   +-------------+   ├─ UPTIME     4 h, 57 min
+:. . . . . . .:   :. . . . . . .:   └─ DATE       2026-09-14 22:11
+:. . . . . . .:   :. . . . . . .:
++-------------+   +-------------+
 ```
+
+El logo es la cuadrícula de 4 paneles de Windows 11, dibujada como mini
+"terminal windows" en ASCII puro (no bloques Unicode), y todo por defecto en
+verde neón estilo Matrix/hacker-terminal.
 
 ## Compilar
 
@@ -75,7 +83,8 @@ También puedes copiar `config\config.default.jsonc` como punto de partida
 | `modules`         | Orden y selección de módulos a mostrar (solo estilo `classic`)      |
 
 Colores válidos: `black`, `red`, `green`, `yellow`, `blue`, `magenta`,
-`cyan`, `white`, `gray`.
+`cyan`, `white`, `gray`, `matrix` (verde neón, color por defecto),
+`matrixdim` (verde neón apagado, para etiquetas).
 
 ## Por qué es rápido
 

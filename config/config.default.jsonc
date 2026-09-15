@@ -6,13 +6,14 @@
   // "boxed": paneles agrupados (Hardware / Session / Uptime). "classic": lista plana.
   "style": "boxed",
 
-  // Colores válidos: black, red, green, yellow, blue, magenta, cyan, white, gray
-  "accentColor": "cyan",
-  "labelColor": "white",
-  "titleColor": "cyan",
+  // Colores válidos: black, red, green, yellow, blue, magenta, cyan, white,
+  // gray, matrix (verde neón), matrixdim (verde neón apagado)
+  "accentColor": "matrix",
+  "labelColor": "matrixdim",
+  "titleColor": "matrix",
 
   "showColorBlocks": true,
-  "separator": "-",
+  "separator": ">",
 
   // Orden y selección de módulos a mostrar (solo aplica con style: "classic").
   "modules": [
